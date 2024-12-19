@@ -58,6 +58,7 @@ public class Application {
         sortByValueJob.setJarByClass(Application.class);
         sortByValueJob.setMapperClass(SalesSortingMapper.class);
         sortByValueJob.setReducerClass(SalesSortingReducer.class);
+        sortByValueJob.setNumReduceTasks(reducersCount);
 
         sortByValueJob.setMapOutputKeyClass(DoubleWritable.class);
         sortByValueJob.setMapOutputValueClass(SalesSortValueDto.class);
