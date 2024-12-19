@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.itmo'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    implementation 'org.apache.hadoop:hadoop-common:3.4.0'
+    implementation 'org.apache.hadoop:hadoop-mapreduce-client-core:3.4.0'
+
+
+    implementation 'org.slf4j:slf4j-api:2.0.0'
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+                'Main-Class': 'org.itmo.Application'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    // Исключение подписанных файлов
+    exclude 'META-INF/*.SF', 'META-INF/*.RSA', 'META-INF/*.DSA'
+}
+
+test {
+    useJUnitPlatform()
+}
